@@ -42,8 +42,6 @@ public class CustomerRepositoryImpl implements CustomerService {
         }else{
             throw new DuplicateEmailException();
         }
-
-
     }
 
     @Override
