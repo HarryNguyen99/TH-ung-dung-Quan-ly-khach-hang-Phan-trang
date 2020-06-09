@@ -6,17 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repository.CustomerRepository;
 import service.CustomerService;
 import service.exception.DuplicateEmailException;
 
-@Transactional
+//@Transactional
+@Service
 public class CustomerRepositoryImpl implements CustomerService {
+    private final CustomerRepository customerRepository;
+
     @Autowired
-    private CustomerRepository customerRepository;
-
-
+    public CustomerRepositoryImpl(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
 
     @Override
     public Iterable<Customer> findAllByProvince(Province province) {

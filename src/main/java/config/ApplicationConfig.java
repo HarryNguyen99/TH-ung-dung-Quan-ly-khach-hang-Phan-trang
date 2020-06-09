@@ -73,10 +73,9 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
     }
 
     @Bean
-    public CustomerService CustomerService() {
-        return new CustomerRepositoryImpl();
+    public CustomerService CustomerService(CustomerRepository customerRepository) {
+        return new CustomerRepositoryImpl(customerRepository);
     }
-
 
 
     //Thymeleaf Configuration
@@ -129,14 +128,14 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/Customer_Province");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/customer_province");
         dataSource.setUsername("root");
-        dataSource.setPassword("12345678");
+        dataSource.setPassword("123456");
         return dataSource;
     }
 
     @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
