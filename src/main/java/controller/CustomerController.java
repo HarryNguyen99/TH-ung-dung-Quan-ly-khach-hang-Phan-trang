@@ -28,7 +28,7 @@ public class CustomerController {
     }
 
     @GetMapping("/customers")
-    public ModelAndView listCustomers(@RequestParam("s") Optional<String> s, Pageable pageable){
+    public ModelAndView listCustomers(@RequestParam("s") Optional<String> s, Pageable pageable) throws Exception {
         Page<Customer> customers;
         if(s.isPresent()){
             customers = customerService.findAllByFirstNameContaining(s.get(), pageable);
@@ -65,7 +65,7 @@ public class CustomerController {
     }
 
     @GetMapping("edit-customer/{id}")
-    public ModelAndView showEditForm(@PathVariable Long id){
+    public ModelAndView showEditForm(@PathVariable Long id) throws Exception {
         Customer customer = customerService.findById(id);
         if (customer != null) {
             ModelAndView modelAndView = new ModelAndView("/customers/edit");
@@ -86,7 +86,7 @@ public class CustomerController {
     }
 
     @GetMapping("/delete-customer/{id}")
-    public ModelAndView showDeleteForm(@PathVariable Long id){
+    public ModelAndView showDeleteForm(@PathVariable Long id) throws Exception {
         Customer customer = customerService.findById(id);
         if(customer != null) {
             ModelAndView modelAndView = new ModelAndView("/customers/delete");

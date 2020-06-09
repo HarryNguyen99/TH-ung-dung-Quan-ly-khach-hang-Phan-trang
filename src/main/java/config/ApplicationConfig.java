@@ -1,6 +1,7 @@
 package config;
 
 
+import concern.Logger;
 import formatter.ProvinceFormatter;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,6 +10,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.format.FormatterRegistry;
@@ -44,6 +46,7 @@ import java.util.Properties;
 @ComponentScan("controller")
 @EnableJpaRepositories("repository")
 @EnableSpringDataWebSupport
+@EnableAspectJAutoProxy
 public class ApplicationConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
@@ -58,6 +61,10 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
         registry.addFormatter(new ProvinceFormatter(applicationContext.getBean(ProvinceService.class)));
     }
 
+    @Bean
+    public Logger logger() {
+        return new Logger();
+    }
 
     @Bean
     public ProvinceService ProvinceService() {
@@ -78,6 +85,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
         templateResolver.setApplicationContext(applicationContext);
         templateResolver.setPrefix("/WEB-INF/views/");
         templateResolver.setSuffix(".html");
+        templateResolver.setCharacterEncoding("UTF-8");
         templateResolver.setTemplateMode(TemplateMode.HTML);
         return templateResolver;
     }
@@ -93,6 +101,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
     public ThymeleafViewResolver viewResolver() {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
+        viewResolver.setCharacterEncoding("UTF-8");
         return viewResolver;
     }
 
