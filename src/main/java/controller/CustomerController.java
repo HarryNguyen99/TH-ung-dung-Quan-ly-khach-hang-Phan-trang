@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import service.CustomerService;
 import service.ProvinceService;
+import service.exception.DuplicateEmailException;
 
 import java.util.Optional;
 
@@ -56,13 +57,13 @@ public class CustomerController {
     }
 
     @PostMapping("/create-customer")
-    public ModelAndView saveProvince(@ModelAttribute ("customer") Customer customer){
+    public ModelAndView saveProvince(@ModelAttribute ("customer") Customer customer) throws DuplicateEmailException {
         customerService.save(customer);
-        ModelAndView modelAndView = new ModelAndView("/customers/create");
-        modelAndView.addObject("customers", new Province());
-        modelAndView.addObject("message","Da Them Moi Khach Hang");
-        return modelAndView;
+        return new ModelAndView("redirect:/customers");
     }
+
+
+
 
     @GetMapping("edit-customer/{id}")
     public ModelAndView showEditForm(@PathVariable Long id) throws Exception {
@@ -77,12 +78,14 @@ public class CustomerController {
     }
 
     @PostMapping("/edit-customer")
-    public ModelAndView updateProvince(@ModelAttribute("customer") Customer customer){
-        customerService.save(customer);
-        ModelAndView modelAndView =new ModelAndView("/customers/edit");
-        modelAndView.addObject("customers",customer);
-        modelAndView.addObject("message", "Sua Thanh Cong");
-        return modelAndView;
+    public ModelAndView updateCustomer(@ModelAttribute("customer") Customer customer) throws DuplicateEmailException {
+            customerService.save(customer);
+            return new ModelAndView("redirect:/customers");
+    }
+
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ModelAndView showInputNotAcceptable() {
+        return new ModelAndView("customers/inputs-not-acceptable");
     }
 
     @GetMapping("/delete-customer/{id}")
@@ -99,7 +102,7 @@ public class CustomerController {
     }
 
     @PostMapping("/delete-customer")
-    public String deleteProvince(@ModelAttribute("customer") Customer customer){
+    public String deleteCustomer(@ModelAttribute("customer") Customer customer){
         customerService.remove(customer.getId());
         return "redirect:provinces";
     }

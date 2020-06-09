@@ -26,6 +26,7 @@
     <tr>
         <th>firstName</th>
         <th>lastName</th>
+        <th>email</th>
         <th>province</th>
         <th colspan="2">Action</th>
     </tr>
@@ -35,6 +36,7 @@
     <tr>
         <td th:text="${customer.firstName}"></td>
         <td th:text="${customer.lastName}"></td>
+        <td th:text="${customer.email}"></td>
         <td th:text="${customer.province.nameProvince}"></td>
         <td><a th:href="@{/edit-customer/__${customer.id}__ }">Edit</a></td>
         <td><a th:href="@{/delete-customer/__${customer.id}__ }">Delete</a></td>
