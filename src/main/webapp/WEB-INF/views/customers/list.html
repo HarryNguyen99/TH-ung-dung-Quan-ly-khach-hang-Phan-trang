@@ -7,28 +7,28 @@
         table {
             border: 1px solid #000;
         }
-
         th, td {
             border: 1px dotted #555;
         }
     </style>
 </head>
 <body>
-<a href="/create-customer">Create new customer</a>
+Language: <a href="?lang=en">English</a> | <a href="?lang=vi">Tiếng Việt</a><br>
+<a href="/create-customer" th:text="#{create}"></a>
 <form>
-    Search by first name:
+    <p th:text="#{search-by-first-name}"></p>
     <input name="s" type="text"/>
-    <input type="submit" value="Search"/>
+    <input type="submit" th:text="#{search}"/>
 </form><br/>
 <table>
-    <caption>Customers List</caption>
+    <caption th:text="#{customers-list}"></caption>
     <thead>
     <tr>
-        <th>firstName</th>
-        <th>lastName</th>
+        <th th:text="#{first-name}"></th>
+        <th th:text="#{last-name}"></th>
         <th>email</th>
-        <th>province</th>
-        <th colspan="2">Action</th>
+        <th th:text="#{province}"></th>
+        <th colspan="2" th:text="#{action}"></th>
     </tr>
     </thead>
     <tbody>
@@ -38,16 +38,16 @@
         <td th:text="${customer.lastName}"></td>
         <td th:text="${customer.email}"></td>
         <td th:text="${customer.province.nameProvince}"></td>
-        <td><a th:href="@{/edit-customer/__${customer.id}__ }">Edit</a></td>
-        <td><a th:href="@{/delete-customer/__${customer.id}__ }">Delete</a></td>
+        <td><a th:href="@{/edit-customer/__${customer.id}__ }" th:text="#{edit}"></a></td>
+        <td><a th:href="@{/delete-customer/__${customer.id}__ }" th:text="#{delete}"></a></td>
     </tr>
     </th:block>
     </tbody>
 </table>
 <div>
-    <a th:href="@{'/customers'(page=${customers.number - 1})}" th:if="${customers.hasPrevious()}">Previous</a>
+    <a th:href="@{'/customers'(page=${customers.number - 1})}" th:if="${customers.hasPrevious()}" th:text="#{previous}"></a>
     <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>
-    <a th:href="@{'/customers'(page=${customers.number + 1})}" th:if="${customers.hasNext()}">Next</a>
+    <a th:href="@{'/customers'(page=${customers.number + 1})}" th:if="${customers.hasNext()}" th:text="#{next-page}"></a>
 </div>
 </body>
 </html>
